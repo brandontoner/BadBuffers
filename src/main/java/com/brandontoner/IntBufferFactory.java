@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for IntBuffers.
  */
-public interface IntBufferFactory {
+public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
     /**
      * @return Collection {@link IntBufferFactory}s which create non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface IntBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new IntBufferFactory() {
                                        @Override
-                                       public IntBuffer copyOf(int[] array, int offset, int length) {
+                                       public IntBuffer copyOf(final int[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface IntBufferFactory {
      * @param array array to copy
      * @return IntBuffer with given contents
      */
+    @Override
     default IntBuffer copyOf(final int[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface IntBufferFactory {
      * @param array array to copy
      * @return IntBuffer with given contents
      */
+    @Override
     IntBuffer copyOf(int[] array, int offset, int length);
 }

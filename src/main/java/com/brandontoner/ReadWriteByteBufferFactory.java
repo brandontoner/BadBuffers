@@ -27,7 +27,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             return ByteBuffer.allocate(length);
         }
     },
@@ -36,7 +36,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             ByteBuffer buffer = ByteBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -47,7 +47,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             ByteBuffer buffer = ByteBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -58,7 +58,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             ByteBuffer buffer = ByteBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -70,7 +70,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             byte[] array = new byte[length + 10];
             return ByteBuffer.wrap(array, 10, length);
         }
@@ -80,7 +80,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             return ByteBuffer.allocateDirect(length);
         }
     },
@@ -89,7 +89,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -100,7 +100,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -111,7 +111,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        ByteBuffer allocate(int length) {
+        ByteBuffer allocate(final int length) {
             ByteBuffer buffer = ByteBuffer.allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -120,7 +120,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
     };
 
     @Override
-    public ByteBuffer copyOf(byte[] array, int offset, int length) {
+    public ByteBuffer copyOf(final byte[] array, final int offset, final int length) {
         ByteBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;

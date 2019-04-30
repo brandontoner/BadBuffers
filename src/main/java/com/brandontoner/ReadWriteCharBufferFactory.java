@@ -28,7 +28,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             return CharBuffer.allocate(length);
         }
     },
@@ -37,7 +37,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             CharBuffer buffer = CharBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -48,7 +48,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             CharBuffer buffer = CharBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -59,7 +59,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             CharBuffer buffer = CharBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -71,7 +71,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             char[] array = new char[length + 10];
             return CharBuffer.wrap(array, 10, length);
         }
@@ -81,7 +81,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             return allocateDirect(length);
         }
     },
@@ -90,7 +90,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             CharBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -101,7 +101,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             CharBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -112,7 +112,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        CharBuffer allocate(int length) {
+        CharBuffer allocate(final int length) {
             CharBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -126,12 +126,12 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      * @param length capacity
      * @return direct CharBuffer.
      */
-    private static CharBuffer allocateDirect(int length) {
+    private static CharBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Character.BYTES).asCharBuffer();
     }
 
     @Override
-    public CharBuffer copyOf(char[] array, int offset, int length) {
+    public CharBuffer copyOf(final char[] array, final int offset, final int length) {
         CharBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;

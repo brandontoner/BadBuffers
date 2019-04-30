@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for LongBuffers.
  */
-public interface LongBufferFactory {
+public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     /**
      * @return Collection {@link LongBufferFactory}s which create non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface LongBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new LongBufferFactory() {
                                        @Override
-                                       public LongBuffer copyOf(long[] array, int offset, int length) {
+                                       public LongBuffer copyOf(final long[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface LongBufferFactory {
      * @param array array to copy
      * @return LongBuffer with given contents
      */
+    @Override
     default LongBuffer copyOf(final long[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface LongBufferFactory {
      * @param array array to copy
      * @return LongBuffer with given contents
      */
+    @Override
     LongBuffer copyOf(long[] array, int offset, int length);
 }

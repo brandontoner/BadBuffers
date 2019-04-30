@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for ByteBuffers.
  */
-public interface ByteBufferFactory {
+public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     /**
      * @return Collection of {@link ByteBufferFactory}s which create non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface ByteBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new ByteBufferFactory() {
                                        @Override
-                                       public ByteBuffer copyOf(byte[] array, int offset, int length) {
+                                       public ByteBuffer copyOf(final byte[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface ByteBufferFactory {
      * @param array array to copy
      * @return ByteBuffer with given contents
      */
+    @Override
     default ByteBuffer copyOf(final byte[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface ByteBufferFactory {
      * @param array array to copy
      * @return ByteBuffer with given contents
      */
+    @Override
     ByteBuffer copyOf(byte[] array, int offset, int length);
 }

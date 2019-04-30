@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for ShortBuffers.
  */
-public interface ShortBufferFactory {
+public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> {
     /**
      * @return Collection {@link ShortBufferFactory}s which create non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface ShortBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new ShortBufferFactory() {
                                        @Override
-                                       public ShortBuffer copyOf(short[] array, int offset, int length) {
+                                       public ShortBuffer copyOf(final short[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface ShortBufferFactory {
      * @param array array to copy
      * @return ShortBuffer with given contents
      */
+    @Override
     default ShortBuffer copyOf(final short[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface ShortBufferFactory {
      * @param array array to copy
      * @return ShortBuffer with given contents
      */
+    @Override
     ShortBuffer copyOf(short[] array, int offset, int length);
 }

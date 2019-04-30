@@ -28,7 +28,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             return LongBuffer.allocate(length);
         }
     },
@@ -37,7 +37,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             LongBuffer buffer = LongBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -48,7 +48,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             LongBuffer buffer = LongBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -59,7 +59,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             LongBuffer buffer = LongBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -71,7 +71,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             long[] array = new long[length + 10];
             return LongBuffer.wrap(array, 10, length);
         }
@@ -81,7 +81,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             return allocateDirect(length);
         }
     },
@@ -90,7 +90,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             LongBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -101,7 +101,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             LongBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -112,7 +112,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        LongBuffer allocate(int length) {
+        LongBuffer allocate(final int length) {
             LongBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -126,12 +126,12 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      * @param length capacity
      * @return direct LongBuffer.
      */
-    private static LongBuffer allocateDirect(int length) {
+    private static LongBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Long.BYTES).asLongBuffer();
     }
 
     @Override
-    public LongBuffer copyOf(long[] array, int offset, int length) {
+    public LongBuffer copyOf(final long[] array, final int offset, final int length) {
         LongBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;

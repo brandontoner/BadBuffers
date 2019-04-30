@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for FloatBuffers.
  */
-public interface FloatBufferFactory {
+public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> {
     /**
      * @return Collection {@link FloatBufferFactory}s which create non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface FloatBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new FloatBufferFactory() {
                                        @Override
-                                       public FloatBuffer copyOf(float[] array, int offset, int length) {
+                                       public FloatBuffer copyOf(final float[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface FloatBufferFactory {
      * @param array array to copy
      * @return FloatBuffer with given contents
      */
+    @Override
     default FloatBuffer copyOf(final float[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface FloatBufferFactory {
      * @param array array to copy
      * @return FloatBuffer with given contents
      */
+    @Override
     FloatBuffer copyOf(float[] array, int offset, int length);
 }

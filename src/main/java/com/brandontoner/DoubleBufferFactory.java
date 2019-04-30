@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for DoubleBuffers.
  */
-public interface DoubleBufferFactory {
+public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffer> {
     /**
      * @return Collection of {@link DoubleBufferFactory}s which creates non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface DoubleBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new DoubleBufferFactory() {
                                        @Override
-                                       public DoubleBuffer copyOf(double[] array, int offset, int length) {
+                                       public DoubleBuffer copyOf(final double[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface DoubleBufferFactory {
      * @param array array to copy
      * @return DoubleBuffer with given contents
      */
+    @Override
     default DoubleBuffer copyOf(final double[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface DoubleBufferFactory {
      * @param array array to copy
      * @return DoubleBuffer with given contents
      */
+    @Override
     DoubleBuffer copyOf(double[] array, int offset, int length);
 }

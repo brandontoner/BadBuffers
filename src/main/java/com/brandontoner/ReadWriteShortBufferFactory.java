@@ -28,7 +28,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             return ShortBuffer.allocate(length);
         }
     },
@@ -37,7 +37,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             ShortBuffer buffer = ShortBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -48,7 +48,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             ShortBuffer buffer = ShortBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -59,7 +59,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             ShortBuffer buffer = ShortBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -71,7 +71,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             short[] array = new short[length + 10];
             return ShortBuffer.wrap(array, 10, length);
         }
@@ -81,7 +81,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             return allocateDirect(length);
         }
     },
@@ -90,7 +90,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             ShortBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -101,7 +101,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             ShortBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -112,7 +112,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        ShortBuffer allocate(int length) {
+        ShortBuffer allocate(final int length) {
             ShortBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -126,12 +126,12 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      * @param length capacity
      * @return direct ShortBuffer.
      */
-    private static ShortBuffer allocateDirect(int length) {
+    private static ShortBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Short.BYTES).asShortBuffer();
     }
 
     @Override
-    public ShortBuffer copyOf(short[] array, int offset, int length) {
+    public ShortBuffer copyOf(final short[] array, final int offset, final int length) {
         ShortBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;

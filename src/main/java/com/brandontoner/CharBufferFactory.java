@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 /**
  * Factory for CharBuffers.
  */
-public interface CharBufferFactory {
+public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     /**
      * @return Collection of {@link CharBufferFactory}s which create non-readonly buffers
      */
@@ -40,7 +40,7 @@ public interface CharBufferFactory {
         return readWriteFactories().stream()
                                    .map(factory -> new CharBufferFactory() {
                                        @Override
-                                       public CharBuffer copyOf(char[] array, int offset, int length) {
+                                       public CharBuffer copyOf(final char[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
 
@@ -66,6 +66,7 @@ public interface CharBufferFactory {
      * @param array array to copy
      * @return CharBuffer with given contents
      */
+    @Override
     default CharBuffer copyOf(final char[] array) {
         return copyOf(array, 0, array.length);
     }
@@ -77,5 +78,6 @@ public interface CharBufferFactory {
      * @param array array to copy
      * @return CharBuffer with given contents
      */
+    @Override
     CharBuffer copyOf(char[] array, int offset, int length);
 }

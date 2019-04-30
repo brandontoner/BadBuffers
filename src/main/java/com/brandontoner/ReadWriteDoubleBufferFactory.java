@@ -28,7 +28,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             return DoubleBuffer.allocate(length);
         }
     },
@@ -37,7 +37,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             DoubleBuffer buffer = DoubleBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -48,7 +48,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             DoubleBuffer buffer = DoubleBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -59,7 +59,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             DoubleBuffer buffer = DoubleBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -71,7 +71,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             double[] array = new double[length + 10];
             return DoubleBuffer.wrap(array, 10, length);
         }
@@ -81,7 +81,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             return allocateDirect(length);
         }
     },
@@ -90,7 +90,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             DoubleBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -101,7 +101,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             DoubleBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -112,7 +112,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        DoubleBuffer allocate(int length) {
+        DoubleBuffer allocate(final int length) {
             DoubleBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -126,12 +126,12 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      * @param length capacity
      * @return direct DoubleBuffer.
      */
-    private static DoubleBuffer allocateDirect(int length) {
+    private static DoubleBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Double.BYTES).asDoubleBuffer();
     }
 
     @Override
-    public DoubleBuffer copyOf(double[] array, int offset, int length) {
+    public DoubleBuffer copyOf(final double[] array, final int offset, final int length) {
         DoubleBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;
