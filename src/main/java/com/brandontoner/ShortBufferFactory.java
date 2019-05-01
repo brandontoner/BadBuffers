@@ -40,6 +40,11 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
         return readWriteFactories().stream()
                                    .map(factory -> new ShortBufferFactory() {
                                        @Override
+                                       public ShortBuffer allocate(final int length) {
+                                           return factory.allocate(length).asReadOnlyBuffer();
+                                       }
+
+                                       @Override
                                        public ShortBuffer copyOf(final short[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
@@ -58,6 +63,15 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
     static Collection<ShortBufferFactory> allFactories() {
         return Stream.concat(readWriteFactories().stream(), readOnlyFactories().stream()).collect(Collectors.toList());
     }
+
+    /**
+     * Allocates a ShortBuffer with the given size, i.e. {@link ShortBuffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    @Override
+    ShortBuffer allocate(int length);
 
     /**
      * Creates a [@link ShortBuffer} with the given contents. The resulting buffer will be equal to
@@ -79,5 +93,9 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
      * @return ShortBuffer with given contents
      */
     @Override
-    ShortBuffer copyOf(short[] array, int offset, int length);
+    default ShortBuffer copyOf(final short[] array, final int offset, final int length) {
+        ShortBuffer buffer = allocate(length);
+        buffer.duplicate().put(array, offset, length);
+        return buffer;
+    }
 }

@@ -20,12 +20,20 @@ package com.brandontoner;
 import java.nio.Buffer;
 
 /**
- * Base interface for all Buffer Factories, defines required methods for all factoires.
+ * Base interface for all Buffer Factories, defines required methods for all factories.
  *
  * @param <A> Array type
  * @param <B> Buffer type
  */
-public interface BufferFactory<A, B extends Buffer> {
+interface BufferFactory<A, B extends Buffer> {
+    /**
+     * Allocates a Buffer with the given size, i.e. {@link Buffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    B allocate(int length);
+
     /**
      * Creates a Buffer with the given contents. The resulting buffer will be equal to
      * {@code Buffer.wrap(array)}. The buffer will be independent of the provided array.
@@ -33,7 +41,7 @@ public interface BufferFactory<A, B extends Buffer> {
      * @param array array to copy
      * @return Buffer with given contents
      */
-    B copyOf(final A array);
+    B copyOf(A array);
 
     /**
      * Creates a Buffer with the given contents. The resulting buffer will be equal to

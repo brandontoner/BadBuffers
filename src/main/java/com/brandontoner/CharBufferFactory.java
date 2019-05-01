@@ -40,6 +40,11 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
         return readWriteFactories().stream()
                                    .map(factory -> new CharBufferFactory() {
                                        @Override
+                                       public CharBuffer allocate(final int length) {
+                                           return factory.allocate(length).asReadOnlyBuffer();
+                                       }
+
+                                       @Override
                                        public CharBuffer copyOf(final char[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
@@ -58,6 +63,15 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     static Collection<CharBufferFactory> allFactories() {
         return Stream.concat(readWriteFactories().stream(), readOnlyFactories().stream()).collect(Collectors.toList());
     }
+
+    /**
+     * Allocates a CharBuffer with the given size, i.e. {@link CharBuffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    @Override
+    CharBuffer allocate(int length);
 
     /**
      * Creates a [@link CharBuffer} with the given contents. The resulting buffer will be equal to
@@ -79,5 +93,9 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
      * @return CharBuffer with given contents
      */
     @Override
-    CharBuffer copyOf(char[] array, int offset, int length);
+    default CharBuffer copyOf(final char[] array, final int offset, final int length) {
+        CharBuffer buffer = allocate(length);
+        buffer.duplicate().put(array, offset, length);
+        return buffer;
+    }
 }

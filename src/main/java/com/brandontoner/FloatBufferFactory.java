@@ -40,6 +40,11 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
         return readWriteFactories().stream()
                                    .map(factory -> new FloatBufferFactory() {
                                        @Override
+                                       public FloatBuffer allocate(final int length) {
+                                           return factory.allocate(length).asReadOnlyBuffer();
+                                       }
+
+                                       @Override
                                        public FloatBuffer copyOf(final float[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
@@ -58,6 +63,15 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
     static Collection<FloatBufferFactory> allFactories() {
         return Stream.concat(readWriteFactories().stream(), readOnlyFactories().stream()).collect(Collectors.toList());
     }
+
+    /**
+     * Allocates a FloatBuffer with the given size, i.e. {@link FloatBuffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    @Override
+    FloatBuffer allocate(int length);
 
     /**
      * Creates a [@link FloatBuffer} with the given contents. The resulting buffer will be equal to
@@ -79,5 +93,9 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
      * @return FloatBuffer with given contents
      */
     @Override
-    FloatBuffer copyOf(float[] array, int offset, int length);
+    default FloatBuffer copyOf(final float[] array, final int offset, final int length) {
+        FloatBuffer buffer = allocate(length);
+        buffer.duplicate().put(array, offset, length);
+        return buffer;
+    }
 }

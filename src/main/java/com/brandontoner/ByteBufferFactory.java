@@ -40,6 +40,11 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
         return readWriteFactories().stream()
                                    .map(factory -> new ByteBufferFactory() {
                                        @Override
+                                       public ByteBuffer allocate(final int length) {
+                                           return factory.allocate(length).asReadOnlyBuffer();
+                                       }
+
+                                       @Override
                                        public ByteBuffer copyOf(final byte[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
@@ -58,6 +63,15 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     static Collection<ByteBufferFactory> allFactories() {
         return Stream.concat(readWriteFactories().stream(), readOnlyFactories().stream()).collect(Collectors.toList());
     }
+
+    /**
+     * Allocates a ByteBuffer with the given size, i.e. {@link ByteBuffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    @Override
+    ByteBuffer allocate(int length);
 
     /**
      * Creates a [@link ByteBuffer} with the given contents. The resulting buffer will be equal to
@@ -79,5 +93,9 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
      * @return ByteBuffer with given contents
      */
     @Override
-    ByteBuffer copyOf(byte[] array, int offset, int length);
+    default ByteBuffer copyOf(final byte[] array, final int offset, final int length) {
+        ByteBuffer buffer = allocate(length);
+        buffer.duplicate().put(array, offset, length);
+        return buffer;
+    }
 }

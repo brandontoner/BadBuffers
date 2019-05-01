@@ -34,6 +34,30 @@ abstract class AbstractFactoryTest<A, B extends Buffer, T extends BufferFactory<
 
     @ParameterizedTest
     @MethodSource("allFactories")
+    void allocate_empty_remaining(final T factory) {
+        assertEquals(0, factory.allocate(0).remaining());
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
+    void allocate_nonempty_remaining(final T factory) {
+        assertEquals(TEST_ARRAY_SIZE, factory.allocate(TEST_ARRAY_SIZE).remaining());
+    }
+
+    @ParameterizedTest
+    @MethodSource("readOnlyFactories")
+    void allocate_readonly(final T factory) {
+        assertTrue(factory.allocate(TEST_ARRAY_SIZE).isReadOnly());
+    }
+
+    @ParameterizedTest
+    @MethodSource("readWriteFactories")
+    void allocate_readwrite(final T factory) {
+        assertFalse(factory.allocate(TEST_ARRAY_SIZE).isReadOnly());
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
     void copyOf_empty(final T factory) {
         A array = randomArray(0);
         assertEquals(wrap(array), factory.copyOf(array));

@@ -22,17 +22,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class ByteBufferFactoryTest extends AbstractFactoryTest<byte[], ByteBuffer, ByteBufferFactory> {
     @Override
-    protected ByteBuffer wrap(final byte[] array) {
+    ByteBuffer wrap(final byte[] array) {
         return ByteBuffer.wrap(array);
     }
 
     @Override
-    protected ByteBuffer wrap(final byte[] array, final int offset, final int length) {
+    ByteBuffer wrap(final byte[] array, final int offset, final int length) {
         return ByteBuffer.wrap(array, offset, length);
     }
 
     @Override
-    protected byte[] randomArray(final int size) {
+    byte[] randomArray(final int size) {
         byte[] data = new byte[size];
         ThreadLocalRandom.current().nextBytes(data);
         return data;

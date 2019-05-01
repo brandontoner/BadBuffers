@@ -40,6 +40,11 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
         return readWriteFactories().stream()
                                    .map(factory -> new DoubleBufferFactory() {
                                        @Override
+                                       public DoubleBuffer allocate(final int length) {
+                                           return factory.allocate(length).asReadOnlyBuffer();
+                                       }
+
+                                       @Override
                                        public DoubleBuffer copyOf(final double[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
@@ -58,6 +63,15 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
     static Collection<DoubleBufferFactory> allFactories() {
         return Stream.concat(readWriteFactories().stream(), readOnlyFactories().stream()).collect(Collectors.toList());
     }
+
+    /**
+     * Allocates a DoubleBuffer with the given size, i.e. {@link DoubleBuffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    @Override
+    DoubleBuffer allocate(int length);
 
     /**
      * Creates a [@link DoubleBuffer} with the given contents. The resulting buffer will be equal to
@@ -79,5 +93,9 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
      * @return DoubleBuffer with given contents
      */
     @Override
-    DoubleBuffer copyOf(double[] array, int offset, int length);
+    default DoubleBuffer copyOf(final double[] array, final int offset, final int length) {
+        DoubleBuffer buffer = allocate(length);
+        buffer.duplicate().put(array, offset, length);
+        return buffer;
+    }
 }

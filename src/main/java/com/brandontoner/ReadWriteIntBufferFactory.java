@@ -28,7 +28,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             return IntBuffer.allocate(length);
         }
     },
@@ -37,7 +37,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             IntBuffer buffer = IntBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -48,7 +48,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             IntBuffer buffer = IntBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -59,7 +59,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             IntBuffer buffer = IntBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -71,7 +71,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             int[] array = new int[length + 10];
             return IntBuffer.wrap(array, 10, length);
         }
@@ -81,7 +81,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             return allocateDirect(length);
         }
     },
@@ -90,7 +90,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             IntBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -101,7 +101,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             IntBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -112,7 +112,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        IntBuffer allocate(final int length) {
+        public IntBuffer allocate(final int length) {
             IntBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -129,19 +129,4 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
     private static IntBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Integer.BYTES).asIntBuffer();
     }
-
-    @Override
-    public IntBuffer copyOf(final int[] array, final int offset, final int length) {
-        IntBuffer buffer = allocate(length);
-        buffer.duplicate().put(array, offset, length);
-        return buffer;
-    }
-
-    /**
-     * Allocates a IntBuffer with the given capacity.
-     *
-     * @param length capacity
-     * @return IntBuffer with the given capacity
-     */
-    abstract IntBuffer allocate(int length);
 }

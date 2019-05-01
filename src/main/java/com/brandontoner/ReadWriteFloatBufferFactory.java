@@ -28,7 +28,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     NON_DIRECT_CORRECT_SIZE {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             return FloatBuffer.allocate(length);
         }
     },
@@ -37,7 +37,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     NON_DIRECT_PADDING_BEFORE {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             FloatBuffer buffer = FloatBuffer.allocate(length + 10);
             buffer.position(10);
             return buffer;
@@ -48,7 +48,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     NON_DIRECT_PADDING_AFTER {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             FloatBuffer buffer = FloatBuffer.allocate(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -59,7 +59,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     NON_DIRECT_PADDING_BOTH {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             FloatBuffer buffer = FloatBuffer.allocate(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -71,7 +71,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     NON_DIRECT_NON_ZERO_ARRAY_OFFSET {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             float[] array = new float[length + 10];
             return FloatBuffer.wrap(array, 10, length);
         }
@@ -81,7 +81,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     DIRECT_CORRECT_SIZE {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             return allocateDirect(length);
         }
     },
@@ -90,7 +90,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     DIRECT_PADDING_BEFORE {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             FloatBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
@@ -101,7 +101,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     DIRECT_PADDING_AFTER {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             FloatBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
@@ -112,7 +112,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      */
     DIRECT_PADDING_BOTH {
         @Override
-        FloatBuffer allocate(final int length) {
+        public FloatBuffer allocate(final int length) {
             FloatBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
@@ -129,19 +129,4 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
     private static FloatBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Float.BYTES).asFloatBuffer();
     }
-
-    @Override
-    public FloatBuffer copyOf(final float[] array, final int offset, final int length) {
-        FloatBuffer buffer = allocate(length);
-        buffer.duplicate().put(array, offset, length);
-        return buffer;
-    }
-
-    /**
-     * Allocates a FloatBuffer with the given capacity.
-     *
-     * @param length capacity
-     * @return FloatBuffer with the given capacity
-     */
-    abstract FloatBuffer allocate(int length);
 }

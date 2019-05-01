@@ -40,6 +40,11 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
         return readWriteFactories().stream()
                                    .map(factory -> new LongBufferFactory() {
                                        @Override
+                                       public LongBuffer allocate(final int length) {
+                                           return factory.allocate(length).asReadOnlyBuffer();
+                                       }
+
+                                       @Override
                                        public LongBuffer copyOf(final long[] array, final int offset, final int length) {
                                            return factory.copyOf(array, offset, length).asReadOnlyBuffer();
                                        }
@@ -58,6 +63,15 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     static Collection<LongBufferFactory> allFactories() {
         return Stream.concat(readWriteFactories().stream(), readOnlyFactories().stream()).collect(Collectors.toList());
     }
+
+    /**
+     * Allocates a LongBuffer with the given size, i.e. {@link LongBuffer#remaining()} will return {@code length}.
+     *
+     * @param length the number of elements that should be remaining in the buffer
+     * @return buffer with specified number of elements
+     */
+    @Override
+    LongBuffer allocate(int length);
 
     /**
      * Creates a [@link LongBuffer} with the given contents. The resulting buffer will be equal to
@@ -79,5 +93,9 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
      * @return LongBuffer with given contents
      */
     @Override
-    LongBuffer copyOf(long[] array, int offset, int length);
+    default LongBuffer copyOf(final long[] array, final int offset, final int length) {
+        LongBuffer buffer = allocate(length);
+        buffer.duplicate().put(array, offset, length);
+        return buffer;
+    }
 }
