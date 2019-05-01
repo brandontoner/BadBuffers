@@ -51,4 +51,13 @@ interface BufferFactory<A, B extends Buffer> {
      * @return Buffer with given contents
      */
     B copyOf(A array, int offset, int length);
+
+    /**
+     * Creates a Buffer with the given contents. The resulting buffer will be equal to {@code buffer}.
+     * The position, limit, mark, and contents of {@code buffer} will be unchanged.
+     *
+     * @param buffer buffer to copy
+     * @return Buffer with given contents
+     */
+    B copyOf(B buffer);
 }

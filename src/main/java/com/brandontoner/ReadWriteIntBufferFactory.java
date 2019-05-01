@@ -126,7 +126,7 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
      * @param length capacity
      * @return direct IntBuffer.
      */
-    private static IntBuffer allocateDirect(final int length) {
+    static IntBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Integer.BYTES).asIntBuffer();
     }
 }

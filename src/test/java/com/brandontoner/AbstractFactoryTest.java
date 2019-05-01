@@ -58,21 +58,21 @@ abstract class AbstractFactoryTest<A, B extends Buffer, T extends BufferFactory<
 
     @ParameterizedTest
     @MethodSource("allFactories")
-    void copyOf_empty(final T factory) {
+    void copyOf_array_empty(final T factory) {
         A array = randomArray(0);
         assertEquals(wrap(array), factory.copyOf(array));
     }
 
     @ParameterizedTest
     @MethodSource("allFactories")
-    void copyOf_nonEmpty(final T factory) {
+    void copyOf_array_nonEmpty(final T factory) {
         A array = randomArray(TEST_ARRAY_SIZE);
         assertEquals(wrap(array), factory.copyOf(array));
     }
 
     @ParameterizedTest
     @MethodSource("allFactories")
-    void copyOf_subsection(final T factory) {
+    void copyOf_array_subsection(final T factory) {
         A data = randomArray(TEST_ARRAY_SIZE);
         int offset = 1;
         int length = TEST_ARRAY_SIZE - 2;
@@ -81,14 +81,68 @@ abstract class AbstractFactoryTest<A, B extends Buffer, T extends BufferFactory<
 
     @ParameterizedTest
     @MethodSource("readOnlyFactories")
-    void copyOf_isReadOnly(final T factory) {
+    void copyOf_array_isReadOnly(final T factory) {
         assertTrue(factory.copyOf(randomArray(0)).isReadOnly());
     }
 
     @ParameterizedTest
     @MethodSource("readWriteFactories")
-    void copyOf_isReadWrite(final T factory) {
+    void copyOf_array_isReadWrite(final T factory) {
         assertFalse(factory.copyOf(randomArray(0)).isReadOnly());
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
+    void copyOf_buffer_empty(final T factory) {
+        B buffer = wrap(randomArray(0));
+        assertEquals(buffer, factory.copyOf(buffer));
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
+    void copyOf_buffer_nonEmpty(final T factory) {
+        B buffer = wrap(randomArray(TEST_ARRAY_SIZE));
+        assertEquals(buffer, factory.copyOf(buffer));
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
+    void copyOf_buffer_subsection(final T factory) {
+        B buffer = wrap(randomArray(TEST_ARRAY_SIZE));
+        buffer.position(1);
+        buffer.limit(TEST_ARRAY_SIZE - 2);
+        assertEquals(buffer, factory.copyOf(buffer));
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
+    void copyOf_buffer_positionAndLimitUnchanged(final T factory) {
+        B buffer = wrap(randomArray(TEST_ARRAY_SIZE));
+        buffer.position(1);
+        buffer.limit(TEST_ARRAY_SIZE - 2);
+        factory.copyOf(buffer);
+        assertEquals(1, buffer.position());
+        assertEquals(TEST_ARRAY_SIZE - 2, buffer.limit());
+    }
+
+    @ParameterizedTest
+    @MethodSource("allFactories")
+    void copyOf_buffer_dataUnchanged(final T factory) {
+        A array = randomArray(TEST_ARRAY_SIZE);
+        factory.copyOf(array);
+        assertEquals(factory.copyOf(array), factory.copyOf(wrap(array)));
+    }
+
+    @ParameterizedTest
+    @MethodSource("readOnlyFactories")
+    void copyOf_buffer_isReadOnly(final T factory) {
+        assertTrue(factory.copyOf(wrap(randomArray(0))).isReadOnly());
+    }
+
+    @ParameterizedTest
+    @MethodSource("readWriteFactories")
+    void copyOf_buffer_isReadWrite(final T factory) {
+        assertFalse(factory.copyOf(wrap(randomArray(0))).isReadOnly());
     }
 
     /**

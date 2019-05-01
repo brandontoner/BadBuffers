@@ -126,7 +126,7 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
      * @param length capacity
      * @return direct ShortBuffer.
      */
-    private static ShortBuffer allocateDirect(final int length) {
+    static ShortBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Short.BYTES).asShortBuffer();
     }
 }

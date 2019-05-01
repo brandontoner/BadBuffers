@@ -126,7 +126,7 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
      * @param length capacity
      * @return direct LongBuffer.
      */
-    private static LongBuffer allocateDirect(final int length) {
+    static LongBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Long.BYTES).asLongBuffer();
     }
 }

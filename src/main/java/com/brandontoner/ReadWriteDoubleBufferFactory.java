@@ -126,7 +126,7 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
      * @param length capacity
      * @return direct DoubleBuffer.
      */
-    private static DoubleBuffer allocateDirect(final int length) {
+    static DoubleBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Double.BYTES).asDoubleBuffer();
     }
 }

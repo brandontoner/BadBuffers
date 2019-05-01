@@ -126,7 +126,7 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
      * @param length capacity
      * @return direct FloatBuffer.
      */
-    private static FloatBuffer allocateDirect(final int length) {
+    static FloatBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Float.BYTES).asFloatBuffer();
     }
 }

@@ -126,7 +126,7 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
      * @param length capacity
      * @return direct CharBuffer.
      */
-    private static CharBuffer allocateDirect(final int length) {
+    static CharBuffer allocateDirect(final int length) {
         return ByteBuffer.allocateDirect(length * Character.BYTES).asCharBuffer();
     }
 }

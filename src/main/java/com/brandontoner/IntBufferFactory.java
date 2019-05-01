@@ -37,24 +37,7 @@ public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
      * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
      */
     static Collection<IntBufferFactory> readOnlyFactories() {
-        return readWriteFactories().stream()
-                                   .map(factory -> new IntBufferFactory() {
-                                       @Override
-                                       public IntBuffer allocate(final int length) {
-                                           return factory.allocate(length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public IntBuffer copyOf(final int[] array, final int offset, final int length) {
-                                           return factory.copyOf(array, offset, length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public String toString() {
-                                           return "READ_ONLY_" + factory.toString();
-                                       }
-                                   })
-                                   .collect(Collectors.toList());
+        return readWriteFactories().stream().map(ReadOnlyIntBufferFactory::new).collect(Collectors.toList());
     }
 
     /**
@@ -97,5 +80,19 @@ public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
         IntBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;
+    }
+
+    /**
+     * Creates a IntBuffer with the given contents. The resulting buffer will be equal to {@code buffer}.
+     * The position, limit, mark, and contents of {@code buffer} will be unchanged.
+     *
+     * @param buffer buffer to copy
+     * @return Buffer with given contents
+     */
+    @Override
+    default IntBuffer copyOf(final IntBuffer buffer) {
+        IntBuffer output = allocate(buffer.remaining());
+        output.duplicate().put(buffer.duplicate());
+        return output;
     }
 }

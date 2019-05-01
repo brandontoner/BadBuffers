@@ -37,24 +37,7 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
      * @return Collection of {@link CharBufferFactory}s which create readonly buffers
      */
     static Collection<CharBufferFactory> readOnlyFactories() {
-        return readWriteFactories().stream()
-                                   .map(factory -> new CharBufferFactory() {
-                                       @Override
-                                       public CharBuffer allocate(final int length) {
-                                           return factory.allocate(length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public CharBuffer copyOf(final char[] array, final int offset, final int length) {
-                                           return factory.copyOf(array, offset, length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public String toString() {
-                                           return "READ_ONLY_" + factory.toString();
-                                       }
-                                   })
-                                   .collect(Collectors.toList());
+        return readWriteFactories().stream().map(ReadOnlyCharBufferFactory::new).collect(Collectors.toList());
     }
 
     /**
@@ -97,5 +80,19 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
         CharBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;
+    }
+
+    /**
+     * Creates a CharBuffer with the given contents. The resulting buffer will be equal to {@code buffer}.
+     * The position, limit, mark, and contents of {@code buffer} will be unchanged.
+     *
+     * @param buffer buffer to copy
+     * @return Buffer with given contents
+     */
+    @Override
+    default CharBuffer copyOf(final CharBuffer buffer) {
+        CharBuffer output = allocate(buffer.remaining());
+        output.duplicate().put(buffer.duplicate());
+        return output;
     }
 }

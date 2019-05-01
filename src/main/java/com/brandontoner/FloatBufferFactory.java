@@ -37,24 +37,7 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
      * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
      */
     static Collection<FloatBufferFactory> readOnlyFactories() {
-        return readWriteFactories().stream()
-                                   .map(factory -> new FloatBufferFactory() {
-                                       @Override
-                                       public FloatBuffer allocate(final int length) {
-                                           return factory.allocate(length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public FloatBuffer copyOf(final float[] array, final int offset, final int length) {
-                                           return factory.copyOf(array, offset, length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public String toString() {
-                                           return "READ_ONLY_" + factory.toString();
-                                       }
-                                   })
-                                   .collect(Collectors.toList());
+        return readWriteFactories().stream().map(ReadOnlyFloatBufferFactory::new).collect(Collectors.toList());
     }
 
     /**
@@ -97,5 +80,19 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
         FloatBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;
+    }
+
+    /**
+     * Creates a FloatBuffer with the given contents. The resulting buffer will be equal to {@code buffer}.
+     * The position, limit, mark, and contents of {@code buffer} will be unchanged.
+     *
+     * @param buffer buffer to copy
+     * @return Buffer with given contents
+     */
+    @Override
+    default FloatBuffer copyOf(final FloatBuffer buffer) {
+        FloatBuffer output = allocate(buffer.remaining());
+        output.duplicate().put(buffer.duplicate());
+        return output;
     }
 }

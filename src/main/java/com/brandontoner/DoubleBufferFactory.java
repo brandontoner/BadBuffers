@@ -37,24 +37,7 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
      * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
      */
     static Collection<DoubleBufferFactory> readOnlyFactories() {
-        return readWriteFactories().stream()
-                                   .map(factory -> new DoubleBufferFactory() {
-                                       @Override
-                                       public DoubleBuffer allocate(final int length) {
-                                           return factory.allocate(length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public DoubleBuffer copyOf(final double[] array, final int offset, final int length) {
-                                           return factory.copyOf(array, offset, length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public String toString() {
-                                           return "READ_ONLY_" + factory.toString();
-                                       }
-                                   })
-                                   .collect(Collectors.toList());
+        return readWriteFactories().stream().map(ReadOnlyDoubleBufferFactory::new).collect(Collectors.toList());
     }
 
     /**
@@ -97,5 +80,19 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
         DoubleBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;
+    }
+
+    /**
+     * Creates a DoubleBuffer with the given contents. The resulting buffer will be equal to {@code buffer}.
+     * The position, limit, mark, and contents of {@code buffer} will be unchanged.
+     *
+     * @param buffer buffer to copy
+     * @return Buffer with given contents
+     */
+    @Override
+    default DoubleBuffer copyOf(final DoubleBuffer buffer) {
+        DoubleBuffer output = allocate(buffer.remaining());
+        output.duplicate().put(buffer.duplicate());
+        return output;
     }
 }

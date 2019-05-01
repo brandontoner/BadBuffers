@@ -37,24 +37,7 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
      * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
      */
     static Collection<ShortBufferFactory> readOnlyFactories() {
-        return readWriteFactories().stream()
-                                   .map(factory -> new ShortBufferFactory() {
-                                       @Override
-                                       public ShortBuffer allocate(final int length) {
-                                           return factory.allocate(length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public ShortBuffer copyOf(final short[] array, final int offset, final int length) {
-                                           return factory.copyOf(array, offset, length).asReadOnlyBuffer();
-                                       }
-
-                                       @Override
-                                       public String toString() {
-                                           return "READ_ONLY_" + factory.toString();
-                                       }
-                                   })
-                                   .collect(Collectors.toList());
+        return readWriteFactories().stream().map(ReadOnlyShortBufferFactory::new).collect(Collectors.toList());
     }
 
     /**
@@ -97,5 +80,19 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
         ShortBuffer buffer = allocate(length);
         buffer.duplicate().put(array, offset, length);
         return buffer;
+    }
+
+    /**
+     * Creates a ShortBuffer with the given contents. The resulting buffer will be equal to {@code buffer}.
+     * The position, limit, mark, and contents of {@code buffer} will be unchanged.
+     *
+     * @param buffer buffer to copy
+     * @return Buffer with given contents
+     */
+    @Override
+    default ShortBuffer copyOf(final ShortBuffer buffer) {
+        ShortBuffer output = allocate(buffer.remaining());
+        output.duplicate().put(buffer.duplicate());
+        return output;
     }
 }
