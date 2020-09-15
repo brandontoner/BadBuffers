@@ -73,7 +73,9 @@ enum ReadWriteDoubleBufferFactory implements DoubleBufferFactory {
         @Override
         public DoubleBuffer allocate(final int length) {
             double[] array = new double[length + 10];
-            return DoubleBuffer.wrap(array, 10, length);
+            DoubleBuffer buffer = DoubleBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**

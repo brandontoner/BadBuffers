@@ -72,7 +72,9 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
         @Override
         public ByteBuffer allocate(final int length) {
             byte[] array = new byte[length + 10];
-            return ByteBuffer.wrap(array, 10, length);
+            ByteBuffer buffer = ByteBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**
@@ -81,7 +83,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
     DIRECT_CORRECT_SIZE {
         @Override
         public ByteBuffer allocate(final int length) {
-            return ByteBuffer.allocateDirect(length);
+            return allocateDirect(length);
         }
     },
     /**
@@ -90,7 +92,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
     DIRECT_PADDING_BEFORE {
         @Override
         public ByteBuffer allocate(final int length) {
-            ByteBuffer buffer = ByteBuffer.allocateDirect(length + 10);
+            ByteBuffer buffer = allocateDirect(length + 10);
             buffer.position(10);
             return buffer;
         }
@@ -101,7 +103,7 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
     DIRECT_PADDING_AFTER {
         @Override
         public ByteBuffer allocate(final int length) {
-            ByteBuffer buffer = ByteBuffer.allocateDirect(length + 10);
+            ByteBuffer buffer = allocateDirect(length + 10);
             buffer.limit(buffer.position() + length);
             return buffer;
         }
@@ -112,10 +114,20 @@ enum ReadWriteByteBufferFactory implements ByteBufferFactory {
     DIRECT_PADDING_BOTH {
         @Override
         public ByteBuffer allocate(final int length) {
-            ByteBuffer buffer = ByteBuffer.allocateDirect(length + 20);
+            ByteBuffer buffer = allocateDirect(length + 20);
             buffer.position(10);
             buffer.limit(buffer.position() + length);
             return buffer;
         }
+    };
+
+    /**
+     * Allocates a direct ByteBuffer with the given capacity.
+     *
+     * @param length capacity
+     * @return direct ByteBuffer.
+     */
+    static ByteBuffer allocateDirect(final int length) {
+        return ByteBuffer.allocateDirect(length * Byte.BYTES);
     }
 }

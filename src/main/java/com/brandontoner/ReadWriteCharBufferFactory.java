@@ -73,7 +73,9 @@ enum ReadWriteCharBufferFactory implements CharBufferFactory {
         @Override
         public CharBuffer allocate(final int length) {
             char[] array = new char[length + 10];
-            return CharBuffer.wrap(array, 10, length);
+            CharBuffer buffer = CharBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**

@@ -27,14 +27,14 @@ import java.util.stream.Stream;
  */
 public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> {
     /**
-     * @return Collection {@link ShortBufferFactory}s which create non-readonly buffers
+     * @return Collection of {@link ShortBufferFactory}s which create non-readonly buffers
      */
     static Collection<ShortBufferFactory> readWriteFactories() {
         return Arrays.asList(ReadWriteShortBufferFactory.values());
     }
 
     /**
-     * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
+     * @return Collection of {@link ShortBufferFactory}s which create readonly buffers
      */
     static Collection<ShortBufferFactory> readOnlyFactories() {
         return readWriteFactories().stream().map(ReadOnlyShortBufferFactory::new).collect(Collectors.toList());

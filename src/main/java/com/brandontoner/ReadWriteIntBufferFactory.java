@@ -73,7 +73,9 @@ enum ReadWriteIntBufferFactory implements IntBufferFactory {
         @Override
         public IntBuffer allocate(final int length) {
             int[] array = new int[length + 10];
-            return IntBuffer.wrap(array, 10, length);
+            IntBuffer buffer = IntBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**

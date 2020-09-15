@@ -30,7 +30,7 @@ class ReadOnlyByteBufferFactory implements ByteBufferFactory {
     /**
      * Constructor.
      *
-     * @param factory delegate factor
+     * @param factory delegate factory
      */
     ReadOnlyByteBufferFactory(final ByteBufferFactory factory) {
         this.factory = factory;

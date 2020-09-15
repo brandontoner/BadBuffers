@@ -27,7 +27,7 @@ import java.util.stream.Stream;
  */
 public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffer> {
     /**
-     * @return Collection of {@link DoubleBufferFactory}s which creates non-readonly buffers
+     * @return Collection of {@link DoubleBufferFactory}s which create non-readonly buffers
      */
     static Collection<DoubleBufferFactory> readWriteFactories() {
         return Arrays.asList(ReadWriteDoubleBufferFactory.values());

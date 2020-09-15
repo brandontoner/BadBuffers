@@ -27,14 +27,14 @@ import java.util.stream.Stream;
  */
 public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     /**
-     * @return Collection {@link LongBufferFactory}s which create non-readonly buffers
+     * @return Collection of {@link LongBufferFactory}s which create non-readonly buffers
      */
     static Collection<LongBufferFactory> readWriteFactories() {
         return Arrays.asList(ReadWriteLongBufferFactory.values());
     }
 
     /**
-     * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
+     * @return Collection of {@link LongBufferFactory}s which create readonly buffers
      */
     static Collection<LongBufferFactory> readOnlyFactories() {
         return readWriteFactories().stream().map(ReadOnlyLongBufferFactory::new).collect(Collectors.toList());

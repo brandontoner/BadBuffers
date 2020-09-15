@@ -73,7 +73,9 @@ enum ReadWriteFloatBufferFactory implements FloatBufferFactory {
         @Override
         public FloatBuffer allocate(final int length) {
             float[] array = new float[length + 10];
-            return FloatBuffer.wrap(array, 10, length);
+            FloatBuffer buffer = FloatBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**

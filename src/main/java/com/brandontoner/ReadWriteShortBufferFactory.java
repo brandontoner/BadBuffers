@@ -73,7 +73,9 @@ enum ReadWriteShortBufferFactory implements ShortBufferFactory {
         @Override
         public ShortBuffer allocate(final int length) {
             short[] array = new short[length + 10];
-            return ShortBuffer.wrap(array, 10, length);
+            ShortBuffer buffer = ShortBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**

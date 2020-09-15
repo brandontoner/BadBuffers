@@ -73,7 +73,9 @@ enum ReadWriteLongBufferFactory implements LongBufferFactory {
         @Override
         public LongBuffer allocate(final int length) {
             long[] array = new long[length + 10];
-            return LongBuffer.wrap(array, 10, length);
+            LongBuffer buffer = LongBuffer.wrap(array, 10, length).slice();
+            assert buffer.arrayOffset() != 0 : "Array offset should be non-zero";
+            return buffer;
         }
     },
     /**
