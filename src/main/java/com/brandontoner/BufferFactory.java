@@ -47,7 +47,11 @@ interface BufferFactory<A, B extends Buffer> {
      * Creates a Buffer with the given contents. The resulting buffer will be equal to
      * {@code Buffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
-     * @param array array to copy
+     * @param array  array to copy
+     * @param offset The offset within the array of the first value to be read; must be non-negative and no larger than
+     *               {@code src.length}
+     * @param length The number of values to be read from the given array; must be non-negative and no larger than
+     *               {@code src.length - offset}
      * @return Buffer with given contents
      */
     B copyOf(A array, int offset, int length);
