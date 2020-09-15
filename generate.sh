@@ -44,6 +44,8 @@ import java.util.stream.Stream;
  */
 public interface ${BUFFER_TYPE}Factory extends BufferFactory<${ARRAY_TYPE}[], ${BUFFER_TYPE}> {
     /**
+     * Gets a Collection of {@link ${BUFFER_TYPE}Factory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link ${BUFFER_TYPE}Factory}s which create non-readonly buffers
      */
     static Collection<${BUFFER_TYPE}Factory> readWriteFactories() {
@@ -51,6 +53,8 @@ public interface ${BUFFER_TYPE}Factory extends BufferFactory<${ARRAY_TYPE}[], ${
     }
 
     /**
+     * Gets a Collection of {@link ${BUFFER_TYPE}Factory}s which create readonly buffers.
+     *
      * @return Collection of {@link ${BUFFER_TYPE}Factory}s which create readonly buffers
      */
     static Collection<${BUFFER_TYPE}Factory> readOnlyFactories() {
@@ -58,6 +62,8 @@ public interface ${BUFFER_TYPE}Factory extends BufferFactory<${ARRAY_TYPE}[], ${
     }
 
     /**
+     * Gets a Collection of {@link ${BUFFER_TYPE}Factory}s.
+     *
      * @return Collection of {@link ${BUFFER_TYPE}Factory}s
      */
     static Collection<${BUFFER_TYPE}Factory> allFactories() {
@@ -74,7 +80,7 @@ public interface ${BUFFER_TYPE}Factory extends BufferFactory<${ARRAY_TYPE}[], ${
     ${BUFFER_TYPE} allocate(int length);
 
     /**
-     * Creates a [@link ${BUFFER_TYPE}} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link ${BUFFER_TYPE}} with the given contents. The resulting buffer will be equal to
      * {@code ${BUFFER_TYPE}.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -86,7 +92,7 @@ public interface ${BUFFER_TYPE}Factory extends BufferFactory<${ARRAY_TYPE}[], ${
     }
 
     /**
-     * Creates a [@link ${BUFFER_TYPE}} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link ${BUFFER_TYPE}} with the given contents. The resulting buffer will be equal to
      * {@code ${BUFFER_TYPE}.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

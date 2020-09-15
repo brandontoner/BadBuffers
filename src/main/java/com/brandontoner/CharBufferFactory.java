@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     /**
+     * Gets a Collection of {@link CharBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link CharBufferFactory}s which create non-readonly buffers
      */
     static Collection<CharBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link CharBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link CharBufferFactory}s which create readonly buffers
      */
     static Collection<CharBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link CharBufferFactory}s.
+     *
      * @return Collection of {@link CharBufferFactory}s
      */
     static Collection<CharBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     CharBuffer allocate(int length);
 
     /**
-     * Creates a [@link CharBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link CharBuffer} with the given contents. The resulting buffer will be equal to
      * {@code CharBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface CharBufferFactory extends BufferFactory<char[], CharBuffer> {
     }
 
     /**
-     * Creates a [@link CharBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link CharBuffer} with the given contents. The resulting buffer will be equal to
      * {@code CharBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> {
     /**
+     * Gets a Collection of {@link FloatBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link FloatBufferFactory}s which create non-readonly buffers
      */
     static Collection<FloatBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
     }
 
     /**
+     * Gets a Collection of {@link FloatBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link FloatBufferFactory}s which create readonly buffers
      */
     static Collection<FloatBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
     }
 
     /**
+     * Gets a Collection of {@link FloatBufferFactory}s.
+     *
      * @return Collection of {@link FloatBufferFactory}s
      */
     static Collection<FloatBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
     FloatBuffer allocate(int length);
 
     /**
-     * Creates a [@link FloatBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link FloatBuffer} with the given contents. The resulting buffer will be equal to
      * {@code FloatBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface FloatBufferFactory extends BufferFactory<float[], FloatBuffer> 
     }
 
     /**
-     * Creates a [@link FloatBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link FloatBuffer} with the given contents. The resulting buffer will be equal to
      * {@code FloatBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

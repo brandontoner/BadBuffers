@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> {
     /**
+     * Gets a Collection of {@link ShortBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link ShortBufferFactory}s which create non-readonly buffers
      */
     static Collection<ShortBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
     }
 
     /**
+     * Gets a Collection of {@link ShortBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link ShortBufferFactory}s which create readonly buffers
      */
     static Collection<ShortBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
     }
 
     /**
+     * Gets a Collection of {@link ShortBufferFactory}s.
+     *
      * @return Collection of {@link ShortBufferFactory}s
      */
     static Collection<ShortBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
     ShortBuffer allocate(int length);
 
     /**
-     * Creates a [@link ShortBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link ShortBuffer} with the given contents. The resulting buffer will be equal to
      * {@code ShortBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface ShortBufferFactory extends BufferFactory<short[], ShortBuffer> 
     }
 
     /**
-     * Creates a [@link ShortBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link ShortBuffer} with the given contents. The resulting buffer will be equal to
      * {@code ShortBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

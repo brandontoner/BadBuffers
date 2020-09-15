@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     /**
+     * Gets a Collection of {@link ByteBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link ByteBufferFactory}s which create non-readonly buffers
      */
     static Collection<ByteBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link ByteBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link ByteBufferFactory}s which create readonly buffers
      */
     static Collection<ByteBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link ByteBufferFactory}s.
+     *
      * @return Collection of {@link ByteBufferFactory}s
      */
     static Collection<ByteBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     ByteBuffer allocate(int length);
 
     /**
-     * Creates a [@link ByteBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link ByteBuffer} with the given contents. The resulting buffer will be equal to
      * {@code ByteBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface ByteBufferFactory extends BufferFactory<byte[], ByteBuffer> {
     }
 
     /**
-     * Creates a [@link ByteBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link ByteBuffer} with the given contents. The resulting buffer will be equal to
      * {@code ByteBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

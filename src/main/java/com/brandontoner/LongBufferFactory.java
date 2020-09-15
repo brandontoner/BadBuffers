@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     /**
+     * Gets a Collection of {@link LongBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link LongBufferFactory}s which create non-readonly buffers
      */
     static Collection<LongBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link LongBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link LongBufferFactory}s which create readonly buffers
      */
     static Collection<LongBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link LongBufferFactory}s.
+     *
      * @return Collection of {@link LongBufferFactory}s
      */
     static Collection<LongBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     LongBuffer allocate(int length);
 
     /**
-     * Creates a [@link LongBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link LongBuffer} with the given contents. The resulting buffer will be equal to
      * {@code LongBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface LongBufferFactory extends BufferFactory<long[], LongBuffer> {
     }
 
     /**
-     * Creates a [@link LongBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link LongBuffer} with the given contents. The resulting buffer will be equal to
      * {@code LongBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

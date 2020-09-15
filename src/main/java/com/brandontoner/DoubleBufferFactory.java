@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffer> {
     /**
+     * Gets a Collection of {@link DoubleBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link DoubleBufferFactory}s which create non-readonly buffers
      */
     static Collection<DoubleBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
     }
 
     /**
+     * Gets a Collection of {@link DoubleBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link DoubleBufferFactory}s which create readonly buffers
      */
     static Collection<DoubleBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
     }
 
     /**
+     * Gets a Collection of {@link DoubleBufferFactory}s.
+     *
      * @return Collection of {@link DoubleBufferFactory}s
      */
     static Collection<DoubleBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
     DoubleBuffer allocate(int length);
 
     /**
-     * Creates a [@link DoubleBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link DoubleBuffer} with the given contents. The resulting buffer will be equal to
      * {@code DoubleBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface DoubleBufferFactory extends BufferFactory<double[], DoubleBuffe
     }
 
     /**
-     * Creates a [@link DoubleBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link DoubleBuffer} with the given contents. The resulting buffer will be equal to
      * {@code DoubleBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy

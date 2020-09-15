@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  */
 public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
     /**
+     * Gets a Collection of {@link IntBufferFactory}s which create non-readonly buffers.
+     *
      * @return Collection of {@link IntBufferFactory}s which create non-readonly buffers
      */
     static Collection<IntBufferFactory> readWriteFactories() {
@@ -34,6 +36,8 @@ public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link IntBufferFactory}s which create readonly buffers.
+     *
      * @return Collection of {@link IntBufferFactory}s which create readonly buffers
      */
     static Collection<IntBufferFactory> readOnlyFactories() {
@@ -41,6 +45,8 @@ public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
     }
 
     /**
+     * Gets a Collection of {@link IntBufferFactory}s.
+     *
      * @return Collection of {@link IntBufferFactory}s
      */
     static Collection<IntBufferFactory> allFactories() {
@@ -57,7 +63,7 @@ public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
     IntBuffer allocate(int length);
 
     /**
-     * Creates a [@link IntBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link IntBuffer} with the given contents. The resulting buffer will be equal to
      * {@code IntBuffer.wrap(array)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
@@ -69,7 +75,7 @@ public interface IntBufferFactory extends BufferFactory<int[], IntBuffer> {
     }
 
     /**
-     * Creates a [@link IntBuffer} with the given contents. The resulting buffer will be equal to
+     * Creates a {@link IntBuffer} with the given contents. The resulting buffer will be equal to
      * {@code IntBuffer.wrap(array, offset, length)}. The buffer will be independent of the provided array.
      *
      * @param array array to copy
